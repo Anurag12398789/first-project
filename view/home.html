@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Registraction form</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="login-form">
+        <h2>Registraction Form</h2>
+      </div>
+      <div class="form">
+        <form id="registrationform" action="">
+          <input id="name" type="text" placeholder=" Enter name" /><br /><br />
+          <input
+            id="email"
+            type="email"
+            placeholder="Enter email"
+          /><br /><br />
+          <input
+            id="pass"
+            type="password"
+            placeholder="Enter password"
+          /><br /><br />
+          <input
+            id="number"
+            type="number"
+            placeholder="Enter number"
+          /><br /><br />
+          <button onclick="signUp()" type="submit" class="button"><a href="#">Sign-Up</a></button>
+        </form>
+      </div>
+    </div>
+    <div id="error"></div>
+    <div id="message"></div>
+
+    <script>
+     
+      const signUp = async () => {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("pass").value.trim();
+        const number = document.getElementById("number").value.trim();
+
+        const requestBody = {
+          name: name,
+          email: email,
+          password: password,
+          mobile: number,
+        };
+        const responce = await fetch("localhost:4000/api/v1/sign-up", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        const data = await responce.json();
+        if (data.responce.ok) {
+          document.getElementById("message").innerHTML = "Sign Up succesfully";
+        } else {
+          document.getElementById("error").innerHTML = `${data.message}`;
+        }
+        try {
+        } catch (error) {
+          console.log(error, "error in sinup");
+          document.getElementById("error").innerHTML = "error in signup";
+        }
+      };
+    </script>
+  </body>
+</html>
